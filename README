@@ -1,0 +1,3 @@
+# First compile the macro and then run it.
+# `make clean & make`
+# `./GetHist [filename] [Report description]`
