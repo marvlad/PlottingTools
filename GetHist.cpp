@@ -25,10 +25,14 @@ int randomColor(int seed){
 	return c_index;
 }
 
-void make_plot(){
-    system("mkdir plots");
+void make_plot(std::string outnamef="Report_date_here"){
+    cout<<"---------------------------------------------\n";
+    cout<<" Reading rootfile and making plots, wait.... \n";
+    cout<<"---------------------------------------------\n";
 
-    TFile *o = new TFile("out.root","RECREATE");
+    system("mkdir plots");
+    std::string filename_output = "Report_"+outnamef+".root";
+    TFile *o = new TFile(filename_output.c_str(),"RECREATE");
     TFile *f = TFile::Open("../WaveForms_rawblsub.root");
 
     std::string hist1 = "wavs/wav_ch";
@@ -39,7 +43,7 @@ void make_plot(){
             int val = 1000 + i;
             //int val = i;
             std::string name = hist1 + std::to_string(val) + hist2 + std::to_string(j);
-            cout<<"Getting "<<name.c_str()<<endl;
+            //cout<<"Getting "<<name.c_str()<<endl;
             TH1D* h = (TH1D*)f->Get(name.c_str());
 	          h->SetLineColor(randomColor(i+j));
             h->SetLineWidth(2);
@@ -64,6 +68,9 @@ void make_plot(){
 
 void make_inform(std::string title="this is a random title", std::string report="date_here"){
 	
+	cout<<"---------------------------------------------\n";
+	cout<<" Making report, wait.....                    \n";
+	cout<<"---------------------------------------------\n";
 	std::string loop = "0";
 	for(int i = 0; i<channels-1; i++){ loop += ", "+std::to_string(i+1);}
 
@@ -83,7 +90,9 @@ void make_inform(std::string title="this is a random title", std::string report=
 		    latex += "\\begin{frame} \n";
 		    latex += "\\frametitle{Channel $\\text{\\n}$} \n";
 		    latex += "\\begin{figure} \n";
+		    latex += "\\begin{center} \n";
 		    latex += "\\includegraphics[scale=0.2]{./plots/C_\\n.png} \n";
+		    latex += "\\end{center} \n";
 		    latex += "\\end{figure} \n";
 		    latex += "\\end{frame} \n";
 		    latex += "} \n";
@@ -94,9 +103,10 @@ void make_inform(std::string title="this is a random title", std::string report=
 	myfile.open (filename.c_str());
 	myfile << latex;
 	myfile.close();
-	std::string run = "pdflatex "+filename;
+	std::string run = "pdflatex "+filename+" > NUL 2>&1";
 	system(run.c_str());
-	system("rm *.aux *.log *.out *.snm *.toc *.nav *.tex");
+	system("rm *.aux *.log *.out *.snm *.toc *.nav *.tex NUL");
+	cout<<" done!\n";
 
 }
 
@@ -115,7 +125,7 @@ int main(int argc, char *argv[])
  filename = std::string(argv[1]);
  title = std::string(argv[2]);
   
- make_plot();
+ make_plot(filename);
  make_inform(title,filename);
 
  return 0;
