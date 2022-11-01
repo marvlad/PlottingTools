@@ -9,6 +9,9 @@
 using namespace std;
 int channels = 60;
 
+//----------------------------------------------------------------------------------------
+// Color function (for people who are color blind)
+//----------------------------------------------------------------------------------------
 // To add color to the histograms
 int randomColor(int seed){
 	//Color taken from https://davidmathlogic.com/colorblind/#%23FEFE62-%23D35FB7
@@ -25,6 +28,9 @@ int randomColor(int seed){
 	return c_index;
 }
 
+//----------------------------------------------------------------------------------------
+// Reading and plotting the waveforms in 'hist l'
+//----------------------------------------------------------------------------------------
 void make_plot(std::string outnamef="Report_date_here"){
     cout<<"---------------------------------------------\n";
     cout<<" Reading rootfile and making plots, wait.... \n";
@@ -66,6 +72,9 @@ void make_plot(std::string outnamef="Report_date_here"){
     }
 }
 
+//----------------------------------------------------------------------------------------
+// Function to make a LaTeX file to the report
+//----------------------------------------------------------------------------------------
 void make_inform(std::string title="this is a random title", std::string report="date_here"){
 	
 	cout<<"---------------------------------------------\n";
@@ -110,8 +119,11 @@ void make_inform(std::string title="this is a random title", std::string report=
 
 }
 
-int main(int argc, char *argv[])
-{
+//----------------------------------------------------------------------------------------
+// Main function
+//----------------------------------------------------------------------------------------
+int main(int argc, char *argv[]){
+
  if (argc < 2) {
         printf("Error: missing command line arguments. It must be ");
         printf("./GetHist [file_name] [title description]\n");
